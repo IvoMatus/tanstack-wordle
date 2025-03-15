@@ -12,7 +12,7 @@ interface Data {
 export const Route = createFileRoute('/')({
   component: Home,
 })
-const TODAYS_WORD = 'SUNDAY'
+const TODAYS_WORD = 'BANANA'
 const todaysWordAsArray = TODAYS_WORD.split('')
 function Home() {;
     const [data, setData] = useState<Data>({
@@ -21,8 +21,18 @@ function Home() {;
         currentRow: 0,
         usedAndWrongLetters: []
 })
+
+        async function checkWordExists(word: string) {
+                let apiUrl = `https://api.dictionaryapi.dev/api/v2/entries/en/${word.toLowerCase()}`;
+                let response = await fetch(apiUrl);
+                let data = await response.json();
+                console.log(data)       
+                return data.title !== 'No Definitions Found';
+        
+        }
+
     useEffect(() => {
-        function handleKeyup(event: KeyboardEvent) {
+        async function handleKeyup(event: KeyboardEvent) {
                 if (data.currentRow >= 6) return; // No más filas disponibles
 
                 const newGuesses = [...data.guesses];
@@ -33,7 +43,18 @@ function Home() {;
                                 guesses: newGuesses,
                         }));
                     }
+                if(event.key === 'Backspace' && data.guesses[data.currentRow].length > 0) {
+                        const newGuesses = [...data.guesses];
+                        newGuesses[data.currentRow] = newGuesses[data.currentRow].slice(0, -1);
+                        setData(current => ({
+                                ...current,
+                                guesses: newGuesses,
+                        }));
+                }
                 if(event.key === 'Enter' && data.guesses[data.currentRow].length === 6) {
+                    const wordActuallyExists = await checkWordExists(data.guesses[data.currentRow]);
+                    console.log(wordActuallyExists)
+                    if (!wordActuallyExists) return;
                     const currentGuess = data.guesses[data.currentRow];
                     const newUsedAndWrongLetters = [...data.usedAndWrongLetters];
                     currentGuess.split('').forEach((letter, index) => {
