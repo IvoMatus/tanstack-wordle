@@ -102,7 +102,7 @@ function Home() {;
      ))}
      </div>
      <div className='space-y-2 mt-6'>
-        <Keyboard usedAndWrongLetters={data.usedAndWrongLetters} />
+        <Keyboard  usedAndWrongLetters={data.usedAndWrongLetters} TODAYS_WORD={TODAYS_WORD} />
      {JSON.stringify(data.guesses)}
      </div>
     </div>

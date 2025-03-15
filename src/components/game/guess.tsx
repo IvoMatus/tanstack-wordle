@@ -24,7 +24,7 @@ export const Guess = (props: GuessProps) => {
 
         bgColor = props.isGuessed ? 'bg-green-700' : bgColor
         return(
-        <button 
+                <button 
         key={`${props.index}-${j}`} 
         className={`cursor-default uppercase flex items-center justify-center 
         w-16 h-16 text-white font-semibold text-lg rounded-md border border-gray-700
