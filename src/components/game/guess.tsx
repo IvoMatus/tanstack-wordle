@@ -7,7 +7,7 @@ interface GuessProps {
   usedAndWrongLetters: string[]
   todaysWordAsArray: string[]
 }
-
+// g
 export const Guess = (props: GuessProps) => {
     return (
     Array.from({ length: 6 }, (_, j) => {
